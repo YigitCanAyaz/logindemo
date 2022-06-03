@@ -41,22 +41,25 @@ async function handler(req, res) {
 
 async function addStore(req, res) {
   if (loggedUsername !== undefined) {
-    console.log(req.body);
-    const { name, publisherId, appStoreUrl, gameList } = req.body;
+    Publisher.countDocuments({ username: loggedUsername }, function (err, count) {
+      if (count === 0) {
+        const { name, publisherId, appStoreUrl, gameList } = req.body;
 
-    const newPublisher = new Publisher({
-      name: name,
-      publisherId: publisherId,
-      appStoreUrl: appStoreUrl,
-      gameList: gameList,
-      username: loggedUsername,
-    });
+        const newPublisher = new Publisher({
+          name: name,
+          publisherId: publisherId,
+          appStoreUrl: appStoreUrl,
+          gameList: gameList,
+          username: loggedUsername,
+        });
 
-    await newPublisher.save();
+        newPublisher.save();
 
-    res.json({
-      body: { toast: "Creation successfull." },
-      error: null,
+        res.json({
+          body: { toast: "Creation successfull." },
+          error: null,
+        });
+      }
     });
   } else {
     return res
@@ -98,16 +101,17 @@ async function compare(req, res) {
                     difference.forEach((element) => {
                       if (foundUser.difference.indexOf(element) === -1) {
                         foundUser.difference.push(element);
-                        foundUser.save();
                       }
                     });
+                    foundUser.save();
                   }
                 );
               }
+              console.log(difference);
+              res.status(201).send(JSON.stringify(difference));
             }
           });
         });
-        res.status(201).send();
       });
     }
   } catch (err) {
@@ -132,20 +136,11 @@ async function getDifferences(req, res) {
 async function addDifferences(req, res) {
   try {
     let differentUrl = req.body.differenceUrl;
-    Publisher.find({ username: loggedUsername }, function (err, doc) {
-      doc.forEach((element) => {
-        let databaseAppStoreUrl = element.appStoreUrl;
-        let databaseGameList = element.gameList;
-
-        request(req.body.differenceUrl, (error, response, html) => {
-          if (!error && response.statusCode == 200) {
-            databaseGameList.push(differentUrl);
-            element.save();
-          }
-        });
-      });
-      res.status(201).send();
+    Publisher.findOne({ username: loggedUsername }, function (err, doc) {
+      doc.gameList.push(differentUrl);
+      doc.save();
     });
+    res.status(201).send();
   } catch (err) {
     res.status(500).send();
   }
@@ -156,7 +151,7 @@ async function removeDifferences(req, res) {
     let differentUrl = req.body.differenceUrl;
     console.log('differentUrl', differentUrl)
     console.log('loggedUsername', loggedUsername)
-    let user = User.findOne({ username: loggedUsername }, function (err, doc) {
+    User.findOne({ username: loggedUsername }, function (err, doc) {
       var index = doc.difference.indexOf(differentUrl);
       console.log('index', index)
       console.log('0', doc.difference[0]);
