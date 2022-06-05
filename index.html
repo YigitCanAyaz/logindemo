@@ -156,7 +156,7 @@
 
     let differenceList = [];
 
-    fetch("http://yigitcanayaz.github.io/compare", {
+    fetch("http://yigitcanayaz.github.io/logindemo/compare", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain,",
@@ -185,7 +185,7 @@
             element.remove();
             console.log('i am in');
 
-            fetch("http://yigitcanayaz.github.io/addDifferences", {
+            fetch("http://yigitcanayaz.github.io/logindemo/addDifferences", {
               method: "POST",
               headers: {
                 Accept: "application/json, text/plain,",
@@ -193,7 +193,7 @@
               },
               body: JSON.stringify({ differenceUrl: targetUrl }),
             }).then(() => {
-              fetch("http://yigitcanayaz.github.io/removeDifferences", {
+              fetch("http://yigitcanayaz.github.io/logindemo/removeDifferences", {
                 method: "POST",
                 headers: {
                   Accept: "application/json, text/plain,",
@@ -211,7 +211,7 @@
   addStore.addEventListener("click", () => {
     const storeValue = document.getElementById("fname").value;
     let gameList = [];
-    fetch("http://yigitcanayaz.github.io/getdata", {
+    fetch("http://yigitcanayaz.github.io/logindemo/getdata", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain,",
@@ -236,7 +236,7 @@
           gameList: gameList,
         };
 
-        fetch("http://yigitcanayaz.github.io/addStore", {
+        fetch("http://yigitcanayaz.github.io/logindemo/addStore", {
           method: "POST",
           headers: {
             Accept: "application/json, text/plain,",
