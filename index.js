@@ -241,7 +241,7 @@ app.post("/login", async (req, res) => {
         if (passwordMatch) {
           loggedUsername = foundUser.username;
           res.send(
-            `<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${loggedUsername}</h3></div><br><br><div align='center'><a href='./'>go to index</a><a href='./login'>logout</a></div>`
+            `<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${loggedUsername}</h3></div><br><br><div align='center'><a href='./'>go to index</a><br/><a href='./login'>logout</a></div>`
           );
         } else {
           res.send(
