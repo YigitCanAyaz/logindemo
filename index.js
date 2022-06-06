@@ -7,13 +7,12 @@ const mongoose = require("mongoose");
 const Publisher = require("./models/Publisher");
 const User = require("./models/User");
 
+const dotenv = require("dotenv");
+dotenv.config();
+const MONGO_URI = process.env.MNG_URI;
+
 const app = express();
 const router = express.Router();
-
-const MONGO_URI =
-  "mongodb://holoscrapper:c2MD2N1ivt4cFv6f@holonext-cluster-shard-00-00-8fced.mongodb.net:27017,holonext-cluster-shard-00-01-8fced.mongodb.net:27017,holonext-cluster-shard-00-02-8fced.mongodb.net:27017/Game-Scrapper?ssl=true&replicaSet=holonext-cluster-shard-0&authSource=admin&retryWrites=true&w=majority";
-SERVER_PORT = 3000;
-
 var loggedUsername;
 
 async function handler(req, res) {
@@ -186,7 +185,7 @@ app.post("/addDifferences", addDifferences);
 app.post("/removeDifferences", removeDifferences);
 
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "index.html"));
+  res.sendFile(path.resolve(__dirname, "login.html"));
 });
 
 app.get("/home", (req, res) => {
@@ -234,7 +233,7 @@ app.post("/login", async (req, res) => {
   try {
     let requestedUsername = req.body.username;
     User.findOne({ username: requestedUsername }, function (err, foundUser) {
-      if (err) return handleError(err);
+      console.log(err);
       if (foundUser) {
         let submittedPass = req.body.password;
         let storedPass = foundUser.password;
@@ -242,9 +241,7 @@ app.post("/login", async (req, res) => {
         const passwordMatch = storedPass === submittedPass;
         if (passwordMatch) {
           loggedUsername = foundUser.username;
-          res.send(
-            `<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${loggedUsername}</h3></div><br><br><div align='center'><a href='./'>go to index</a><br/><a href='./login'>logout</a></div>`
-          );
+          res.sendFile(path.resolve(__dirname, "index.html"));
         } else {
           res.send(
             "<div align ='center'><h2>Invalid username or password</h2></div><br><br><div align ='center'><a href='./login'>login again</a></div>"
