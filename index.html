@@ -161,14 +161,14 @@
 
       let differenceList = [];
 
-      fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/compare", {
+      fetch("http://localhost:3000/compare", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
           "Content-Type": "application/json",
         },
       })
-        .then((response) => response.json())
+        .then((response) => console.log(response))
         .then((data) => {
           data.forEach((item, index) => {
             differenceList.push(item);
@@ -192,28 +192,22 @@
               element.remove();
               console.log("i am in");
 
-              fetch(
-                "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addDifferences",
-                {
+              fetch("http://localhost:3000/addDifferences", {
+                method: "POST",
+                headers: {
+                  Accept: "application/json, text/plain,",
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ differenceUrl: targetUrl }),
+              }).then(() => {
+                fetch("http://localhost:3000/removeDifferences", {
                   method: "POST",
                   headers: {
                     Accept: "application/json, text/plain,",
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({ differenceUrl: targetUrl }),
-                }
-              ).then(() => {
-                fetch(
-                  "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/removeDifferences",
-                  {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json, text/plain,",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ differenceUrl: targetUrl }),
-                  }
-                );
+                });
               });
             });
           });
@@ -223,7 +217,7 @@
     addStore.addEventListener("click", () => {
       const storeValue = document.getElementById("fname").value;
       let gameList = [];
-      fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/getdata", {
+      fetch("http://localhost:3000/getdata", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -248,17 +242,14 @@
             gameList: gameList,
           };
 
-          fetch(
-            "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addStore",
-            {
-              method: "POST",
-              headers: {
-                Accept: "application/json, text/plain,",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
-            }
-          )
+          fetch("http://localhost:3000/addStore", {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain,",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
             .then((res) => res.json())
             .then((res) => console.log(res));
 
