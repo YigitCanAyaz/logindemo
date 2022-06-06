@@ -161,7 +161,7 @@
 
       let differenceList = [];
 
-      fetch("https://yigitcanayaz.github.io/logindemo/compare", {
+      fetch("http://localhost:3000/compare", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -192,7 +192,7 @@
               element.remove();
               console.log("i am in");
 
-              fetch("https://yigitcanayaz.github.io/logindemo/addDifferences", {
+              fetch("http://localhost:3000/addDifferences", {
                 method: "POST",
                 headers: {
                   Accept: "application/json, text/plain,",
@@ -200,17 +200,14 @@
                 },
                 body: JSON.stringify({ differenceUrl: targetUrl }),
               }).then(() => {
-                fetch(
-                  "https://yigitcanayaz.github.io/logindemo/removeDifferences",
-                  {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json, text/plain,",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ differenceUrl: targetUrl }),
-                  }
-                );
+                fetch("http://localhost:3000/removeDifferences", {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json, text/plain,",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ differenceUrl: targetUrl }),
+                });
               });
             });
           });
@@ -220,7 +217,7 @@
     addStore.addEventListener("click", () => {
       const storeValue = document.getElementById("fname").value;
       let gameList = [];
-      fetch("https://yigitcanayaz.github.io/logindemo/getdata", {
+      fetch("http://localhost:3000/getdata", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -245,7 +242,7 @@
             gameList: gameList,
           };
 
-          fetch("https://yigitcanayaz.github.io/logindemo/addStore", {
+          fetch("http://localhost:3000/addStore", {
             method: "POST",
             headers: {
               Accept: "application/json, text/plain,",

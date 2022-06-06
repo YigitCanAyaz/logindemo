@@ -41,26 +41,29 @@ async function handler(req, res) {
 
 async function addStore(req, res) {
   if (loggedUsername !== undefined) {
-    Publisher.countDocuments({ username: loggedUsername }, function (err, count) {
-      if (count === 0) {
-        const { name, publisherId, appStoreUrl, gameList } = req.body;
+    Publisher.countDocuments(
+      { username: loggedUsername },
+      function (err, count) {
+        if (count === 0) {
+          const { name, publisherId, appStoreUrl, gameList } = req.body;
 
-        const newPublisher = new Publisher({
-          name: name,
-          publisherId: publisherId,
-          appStoreUrl: appStoreUrl,
-          gameList: gameList,
-          username: loggedUsername,
-        });
+          const newPublisher = new Publisher({
+            name: name,
+            publisherId: publisherId,
+            appStoreUrl: appStoreUrl,
+            gameList: gameList,
+            username: loggedUsername,
+          });
 
-        newPublisher.save();
+          newPublisher.save();
 
-        res.json({
-          body: { toast: "Creation successfull." },
-          error: null,
-        });
+          res.json({
+            body: { toast: "Creation successfull." },
+            error: null,
+          });
+        }
       }
-    });
+    );
   } else {
     return res
       .status(403)
@@ -149,12 +152,12 @@ async function addDifferences(req, res) {
 async function removeDifferences(req, res) {
   try {
     let differentUrl = req.body.differenceUrl;
-    console.log('differentUrl', differentUrl)
-    console.log('loggedUsername', loggedUsername)
+    console.log("differentUrl", differentUrl);
+    console.log("loggedUsername", loggedUsername);
     User.findOne({ username: loggedUsername }, function (err, doc) {
       var index = doc.difference.indexOf(differentUrl);
-      console.log('index', index)
-      console.log('0', doc.difference[0]);
+      console.log("index", index);
+      console.log("0", doc.difference[0]);
       doc.difference.splice(index, 1);
       doc.save();
     });
