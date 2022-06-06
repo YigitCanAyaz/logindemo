@@ -13,7 +13,6 @@ const router = express.Router();
 const MONGO_URI =
   "mongodb://holoscrapper:c2MD2N1ivt4cFv6f@holonext-cluster-shard-00-00-8fced.mongodb.net:27017,holonext-cluster-shard-00-01-8fced.mongodb.net:27017,holonext-cluster-shard-00-02-8fced.mongodb.net:27017/Game-Scrapper?ssl=true&replicaSet=holonext-cluster-shard-0&authSource=admin&retryWrites=true&w=majority";
 SERVER_PORT = 3000;
-var server = require("http").Server(app);
 
 var loggedUsername;
 
@@ -262,9 +261,13 @@ app.post("/login", async (req, res) => {
   }
 });
 
-server.listen(SERVER_PORT, () =>
-  console.log(`Holonext API listening on port ${SERVER_PORT}!`)
-);
+app.listen(3000, function () {
+  console.log(
+    "Express started on http://localhost:" +
+      3000 +
+      "; press Ctrl-C to terminate."
+  );
+});
 
 // Mongo Connection
 mongoose.connect(MONGO_URI, { useNewUrlParser: true }, (err) => {
