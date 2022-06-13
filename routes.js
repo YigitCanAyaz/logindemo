@@ -160,25 +160,54 @@ async function addStore(req, res) {
 async function compare(req, res) {
   try {
     if (loggedUsername !== undefined) {
-      var difference = [];
-      const publisher = await Publisher.find({ username: loggedUsername });
-      //   function (err, doc) {
-      //     doc.forEach((element) => {
-      //       let databaseAppStoreUrl = element.appStoreUrl;
-      //       let databaseGameList = element.gameList;
-      //       difference.push(
-      //         addToDifference(databaseAppStoreUrl, databaseGameList)
-      //       );
-      //     });
-      //   }
-      console.log(publisher);
+      Publisher.find({ username: loggedUsername }, function (err, doc) {
+        let sumDifferences = [];
+        doc.forEach((element) => {
+          let databaseAppStoreUrl = element.appStoreUrl;
+          let databaseGameList = element.gameList;
 
-      let databaseAppStoreUrl = publisher[0].appStoreUrl;
-      let databaseGameList = publisher[0].gameList;
-      var temp = await addToDifference(databaseAppStoreUrl, databaseGameList);
-      console.log(temp);
-      console.log("difference", difference);
-      // res.status(201).send(JSON.stringify(difference));
+          request(databaseAppStoreUrl, (error, response, html) => {
+            if (!error && response.statusCode == 200) {
+              const htmlOutput = cheerio.load(html);
+              const dataMain = htmlOutput(".l-row l-row--peek");
+              const index = dataMain.find("a").text();
+              let array = [];
+              htmlOutput(".l-row").each((i, data) => {
+                for (let j = 0; j < htmlOutput(data).children().length; j++) {
+                  array.push(htmlOutput(data).children()[j].attribs.href);
+                }
+              });
+
+              let difference = array
+                .filter((x) => !databaseGameList.includes(x))
+                .concat(databaseGameList.filter((x) => !array.includes(x)));
+
+              console.log('difference', difference);
+              sumDifferences.push(difference);
+
+              if (difference.length != 0) {
+                User.findOne(
+                  { username: loggedUsername },
+                  function (err, foundUser) {
+                    if (err) return handleError(err);
+
+                    difference.forEach((element) => {
+                      if (foundUser.difference.indexOf(element) === -1) {
+                        foundUser.difference.push(element);
+                      }
+                    });
+                    foundUser.save();
+                  }
+                );
+              }
+            }
+          });
+        });
+        setTimeout(function () {
+          console.log('sumDifferences', sumDifferences);
+          res.status(201).send();
+        }, 10000);
+      });
     }
   } catch (err) {
     res.status(500).send();
@@ -246,13 +275,12 @@ const addToDifference = async function (databaseAppStoreUrl, databaseGameList) {
 
 async function getDifferences(req, res) {
   try {
-    if (loggedUsername !== undefined) {
-      User.findOne({ name: loggedUsername }, function (err, foundUser) {
-        if (err) return handleError(err);
-
+    User.findOne({ username: loggedUsername }).then(function (foundUser) {
+      if (foundUser) {
+        console.log('foundUser.difference', foundUser.difference);
         res.status(201).send(JSON.stringify(foundUser.difference));
-      });
-    }
+      }
+    });
   } catch (err) {
     res.status(500).send();
   }
