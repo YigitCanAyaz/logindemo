@@ -158,7 +158,7 @@
     setInterval(function () {
       try {
         let differenceList = [];
-        fetch("http://localhost:3000/getDifferences", {
+        fetch("http://172.31.45.75:3000/getDifferences", {
           method: "POST",
           headers: {
             Accept: "application/json, text/plain,",
@@ -199,7 +199,7 @@
                 element.remove();
                 console.log("i am in");
 
-                fetch("http://localhost:3000/addDifferences", {
+                fetch("http://172.31.45.75:3000/addDifferences", {
                   method: "POST",
                   headers: {
                     Accept: "application/json, text/plain,",
@@ -210,7 +210,7 @@
                     publisherName: targetName[0],
                   }),
                 }).then(() => {
-                  fetch("http://localhost:3000/removeDifferences", {
+                  fetch("http://172.31.45.75:3000/removeDifferences", {
                     method: "POST",
                     headers: {
                       Accept: "application/json, text/plain,",
@@ -235,7 +235,7 @@
 
       // let deneme = "deneme";
 
-      fetch("http://localhost:3000/compare", {
+      fetch("http://172.31.45.75:3000/compare", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -301,7 +301,7 @@
     addStore.addEventListener("click", () => {
       const storeValue = document.getElementById("fname").value;
       let gameList = [];
-      fetch("http://localhost:3000/getdata", {
+      fetch("http://172.31.45.75:3000/getdata", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -326,7 +326,7 @@
             gameList: gameList,
           };
 
-          fetch("http://localhost:3000/addStore", {
+          fetch("http://172.31.45.75:3000/addStore", {
             method: "POST",
             headers: {
               Accept: "application/json, text/plain,",
