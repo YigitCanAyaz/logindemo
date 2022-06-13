@@ -1,6 +1,18 @@
 # HoloNext Scraper Demo
 
-With this web application, you can add your app store to the logged-in user. After adding new applications to your online store, this web application will give you the differences between your online store and current database. By clicking the differences you can add these new applications to the database.
+With this web application, you can add your stores to the logged-in user. After adding new applications to your online store, this web application will give you the differences between your online store and current database. By clicking the differences you can add these new applications to the database.
+
+## Path
+
+First go to the http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/ and register an account if you don't have it yet. 
+
+Then login to that user and you will be redirected to the root page. Enter your full store url link (for example https://apps.apple.com/us/developer/toprak-yildirim/id1598138404?see-all=i-phonei-pad-apps) and click to the add store button. This will add your store & games to the database. 
+
+By clicking get data button, you can get the differences between URL gameList and database gameList. Note that you don't have to enter any url to click getData button (you already added the store). 
+
+In every 30 seconds, differences in the gameList's will be displayed. By clicking them you can add to the database. 
+
+Have fun! @yigitcanayaz
 
 ## Home
 
