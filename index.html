@@ -158,13 +158,16 @@
     setInterval(function () {
       try {
         let differenceList = [];
-        fetch("http://172.31.45.75/getDifferences", {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain,",
-            "Content-Type": "application/json",
-          },
-        })
+        fetch(
+          "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/getDifferences",
+          {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain,",
+              "Content-Type": "application/json",
+            },
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             console.log("data", data);
@@ -199,25 +202,31 @@
                 element.remove();
                 console.log("i am in");
 
-                fetch("http://172.31.45.75/addDifferences", {
-                  method: "POST",
-                  headers: {
-                    Accept: "application/json, text/plain,",
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    differenceUrl: targetUrl,
-                    publisherName: targetName[0],
-                  }),
-                }).then(() => {
-                  fetch("http://172.31.45.75/removeDifferences", {
+                fetch(
+                  "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addDifferences",
+                  {
                     method: "POST",
                     headers: {
                       Accept: "application/json, text/plain,",
                       "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ differenceUrl: targetUrl }),
-                  });
+                    body: JSON.stringify({
+                      differenceUrl: targetUrl,
+                      publisherName: targetName[0],
+                    }),
+                  }
+                ).then(() => {
+                  fetch(
+                    "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/removeDifferences",
+                    {
+                      method: "POST",
+                      headers: {
+                        Accept: "application/json, text/plain,",
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ differenceUrl: targetUrl }),
+                    }
+                  );
                 });
               });
             });
@@ -235,7 +244,7 @@
 
       // let deneme = "deneme";
 
-      fetch("http://172.31.45.75/compare", {
+      fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/compare", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -301,7 +310,7 @@
     addStore.addEventListener("click", () => {
       const storeValue = document.getElementById("fname").value;
       let gameList = [];
-      fetch("http://172.31.45.75/getdata", {
+      fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/getdata", {
         method: "POST",
         headers: {
           Accept: "application/json, text/plain,",
@@ -326,14 +335,17 @@
             gameList: gameList,
           };
 
-          fetch("http://172.31.45.75/addStore", {
-            method: "POST",
-            headers: {
-              Accept: "application/json, text/plain,",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          })
+          fetch(
+            "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addStore",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json, text/plain,",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            }
+          )
             .then((res) => res.json())
             .then((res) => console.log(res));
 
