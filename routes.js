@@ -46,30 +46,27 @@ module.exports = function (app) {
   app.post("/register", async (req, res) => {
     try {
       let requestedUsername = req.body.username;
-      await User.findOne(
-        { username: requestedUsername },
-        function (err, foundUser) {
-          if (err) return handleError(err);
-          if (!foundUser) {
-            let newUser = new User({
-              id: Date.now(),
-              username: req.body.username,
-              password: req.body.password,
-              difference: [],
-            });
+      console.log(requestedUsername);
+      User.findOne({ username: requestedUsername }, function (err, foundUser) {
+        if (!foundUser) {
+          let newUser = new User({
+            id: Date.now(),
+            username: req.body.username,
+            password: req.body.password,
+            difference: [],
+          });
 
-            newUser.save();
+          newUser.save();
 
-            res.send(
-              "<div align ='center'><h2>Registration successful</h2></div><br><br><div align='center'><a href='./login'>login</a></div><br><br><div align='center'><a href='./registration'>Register another user</a></div>"
-            );
-          } else {
-            res.send(
-              "<div align ='center'><h2>Username already used</h2></div><br><br><div align='center'><a href='./registration'>Register again</a></div>"
-            );
-          }
+          res.send(
+            "<div align ='center'><h2>Registration successful</h2></div><br><br><div align='center'><a href='./login'>login</a></div><br><br><div align='center'><a href='./registration'>Register another user</a></div>"
+          );
+        } else {
+          res.send(
+            "<div align ='center'><h2>Username already used</h2></div><br><br><div align='center'><a href='./registration'>Register again</a></div>"
+          );
         }
-      );
+      });
     } catch {
       res.send("Internal server error");
     }
@@ -165,6 +162,7 @@ async function compare(req, res) {
         doc.forEach((element) => {
           let databaseAppStoreUrl = element.appStoreUrl;
           let databaseGameList = element.gameList;
+          let publisherName = element.name;
 
           request(databaseAppStoreUrl, (error, response, html) => {
             if (!error && response.statusCode == 200) {
@@ -182,7 +180,7 @@ async function compare(req, res) {
                 .filter((x) => !databaseGameList.includes(x))
                 .concat(databaseGameList.filter((x) => !array.includes(x)));
 
-              console.log('difference', difference);
+              console.log("difference", difference);
               sumDifferences.push(difference);
 
               if (difference.length != 0) {
@@ -193,7 +191,7 @@ async function compare(req, res) {
 
                     difference.forEach((element) => {
                       if (foundUser.difference.indexOf(element) === -1) {
-                        foundUser.difference.push(element);
+                        foundUser.difference.push({ element, publisherName });
                       }
                     });
                     foundUser.save();
@@ -203,10 +201,6 @@ async function compare(req, res) {
             }
           });
         });
-        setTimeout(function () {
-          console.log('sumDifferences', sumDifferences);
-          res.status(201).send();
-        }, 10000);
       });
     }
   } catch (err) {
@@ -276,8 +270,8 @@ const addToDifference = async function (databaseAppStoreUrl, databaseGameList) {
 async function getDifferences(req, res) {
   try {
     User.findOne({ username: loggedUsername }).then(function (foundUser) {
-      if (foundUser) {
-        console.log('foundUser.difference', foundUser.difference);
+      if (foundUser.difference[0] !== null) {
+        console.log("foundUser.difference", foundUser.difference);
         res.status(201).send(JSON.stringify(foundUser.difference));
       }
     });
@@ -289,10 +283,16 @@ async function getDifferences(req, res) {
 async function addDifferences(req, res) {
   try {
     let differentUrl = req.body.differenceUrl;
-    Publisher.findOne({ username: loggedUsername }, function (err, doc) {
-      doc.gameList.push(differentUrl);
-      doc.save();
-    });
+    let publisherName = req.body.publisherName;
+    Publisher.find(
+      { username: loggedUsername, name: publisherName },
+      function (err, doc) {
+        doc.forEach((element) => {
+          element.gameList.push(differentUrl);
+          element.save();
+        });
+      }
+    );
     res.status(201).send();
   } catch (err) {
     res.status(500).send();
@@ -305,10 +305,20 @@ async function removeDifferences(req, res) {
     console.log("differentUrl", differentUrl);
     console.log("loggedUsername", loggedUsername);
     User.findOne({ username: loggedUsername }, function (err, doc) {
-      var index = doc.difference.indexOf(differentUrl);
-      console.log("index", index);
-      console.log("0", doc.difference[0]);
-      doc.difference.splice(index, 1);
+      for (var i = 0; i < doc.difference.length; i++) {
+        if (doc.difference[i].element === differentUrl) {
+          doc.difference.splice(i, 1);
+        }
+      }
+      // console.log("doc.difference", doc.difference);
+      // console.log(
+      //   "docccc",
+      //   doc.difference[Object.keys(doc.difference)[0]].element
+      // );
+      // var index = doc.difference[Object.keys(doc.difference)[0]].element;
+      // console.log("index", index);
+      // console.log("0", doc.difference[0]);
+      // doc.difference.splice(index, 1);
       doc.save();
     });
     // user.save();

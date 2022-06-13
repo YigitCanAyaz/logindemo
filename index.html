@@ -1,267 +1,344 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-<head>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+      /* Remove margins and padding from the list */
+      ul {
+        margin: 0;
+        padding: 0;
+      }
 
-    /* Remove margins and padding from the list */
-    ul {
-      margin: 0;
-      padding: 0;
-    }
+      /* Style the list items */
+      ul li {
+        cursor: pointer;
+        position: relative;
+        padding: 12px 8px 12px 40px;
+        background: #eee;
+        font-size: 18px;
+        transition: 0.2s;
 
-    /* Style the list items */
-    ul li {
-      cursor: pointer;
-      position: relative;
-      padding: 12px 8px 12px 40px;
-      background: #eee;
-      font-size: 18px;
-      transition: 0.2s;
+        /* make the list items unselectable */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-      /* make the list items unselectable */
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+      /* Set all odd list items to a different color (zebra-stripes) */
+      ul li:nth-child(odd) {
+        background: #f9f9f9;
+      }
 
-    /* Set all odd list items to a different color (zebra-stripes) */
-    ul li:nth-child(odd) {
-      background: #f9f9f9;
-    }
+      /* Darker background-color on hover */
+      ul li:hover {
+        background: #ddd;
+      }
 
-    /* Darker background-color on hover */
-    ul li:hover {
-      background: #ddd;
-    }
+      /* When clicked on, add a background color and strike out text */
+      ul li.checked {
+        background: #888;
+        color: #fff;
+        text-decoration: line-through;
+      }
 
-    /* When clicked on, add a background color and strike out text */
-    ul li.checked {
-      background: #888;
-      color: #fff;
-      text-decoration: line-through;
-    }
+      /* Add a "checked" mark when clicked on */
+      ul li.checked::before {
+        content: "";
+        position: absolute;
+        border-color: #fff;
+        border-style: solid;
+        border-width: 0 2px 2px 0;
+        top: 10px;
+        left: 16px;
+        transform: rotate(45deg);
+        height: 15px;
+        width: 7px;
+      }
 
-    /* Add a "checked" mark when clicked on */
-    ul li.checked::before {
-      content: "";
-      position: absolute;
-      border-color: #fff;
-      border-style: solid;
-      border-width: 0 2px 2px 0;
-      top: 10px;
-      left: 16px;
-      transform: rotate(45deg);
-      height: 15px;
-      width: 7px;
-    }
+      /* Style the close button */
+      .close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 12px 16px 12px 16px;
+      }
 
-    /* Style the close button */
-    .close {
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding: 12px 16px 12px 16px;
-    }
+      .close:hover {
+        background-color: #f44336;
+        color: white;
+      }
 
-    .close:hover {
-      background-color: #f44336;
-      color: white;
-    }
+      /* Style the header */
+      .header {
+        background-color: #f44336;
+        padding: 30px 40px;
+        color: white;
+        text-align: center;
+      }
 
-    /* Style the header */
-    .header {
-      background-color: #f44336;
-      padding: 30px 40px;
-      color: white;
-      text-align: center;
-    }
+      /* Clear floats after the header */
+      .header:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
 
-    /* Clear floats after the header */
-    .header:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
+      /* Style the input */
+      input {
+        margin: 0;
+        border: none;
+        border-radius: 0;
+        width: 75%;
+        padding: 10px;
+        float: left;
+        font-size: 16px;
+      }
 
-    /* Style the input */
-    input {
-      margin: 0;
-      border: none;
-      border-radius: 0;
-      width: 75%;
-      padding: 10px;
-      float: left;
-      font-size: 16px;
-    }
+      /* Style the "Add" button */
+      .addBtn {
+        padding: 10px;
+        width: 25%;
+        background: #d9d9d9;
+        color: #555;
+        float: left;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 0;
+      }
 
-    /* Style the "Add" button */
-    .addBtn {
-      padding: 10px;
-      width: 25%;
-      background: #d9d9d9;
-      color: #555;
-      float: left;
-      text-align: center;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-      border-radius: 0;
-    }
+      .addBtn:hover {
+        background-color: #bbb;
+      }
 
-    .addBtn:hover {
-      background-color: #bbb;
-    }
+      .addStore {
+        padding: 10px;
+        width: 25%;
+        background: #d9d9d9;
+        color: #555;
+        float: right;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 0;
+      }
+    </style>
+  </head>
 
-    .addStore {
-      padding: 10px;
-      width: 25%;
-      background: #d9d9d9;
-      color: #555;
-      float: right;
-      text-align: center;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-      border-radius: 0;
-    }
-  </style>
-</head>
+  <body>
+    <div id="myDIV" class="header">
+      <h2>Item List</h2>
+      <span id="btn" class="addBtn"> Get Data </span>
+      <input
+        type="text"
+        style="width: 30%; margin-left: 5%"
+        id="fname"
+        name="firstname"
+        placeholder="Enter Store Name"
+      />
+      <span id="addStore" class="addStore"> Add Store </span>
+    </div>
 
-<body>
-  <div id="myDIV" class="header">
-    <h2>Item List</h2>
-    <span id="btn" class="addBtn"> Get Data </span>
-    <input type="text" style="width: 30%; margin-left: 5%" id="fname" name="firstname" placeholder="Enter Store Name" />
-    <span id="addStore" class="addStore"> Add Store </span>
-  </div>
+    <ul id="myUL"></ul>
+  </body>
+  <script>
+    let list = document.getElementById("myUL");
+    console.log(list);
+    let btn = document.getElementById("btn");
+    let infos = [];
 
-  <ul id="myUL"></ul>
-</body>
-<script>
-  let list = document.getElementById("myUL");
-  console.log(list);
-  let btn = document.getElementById("btn");
-  let infos = [];
+    let addStore = document.getElementById("addStore");
 
-  let addStore = document.getElementById("addStore");
-
-  btn.addEventListener("click", () => {
-    console.log("clicked");
-    const storeValue = document.getElementById("fname").value;
-
-    let differenceList = [];
-
-    let deneme = "deneme";
-
-    fetch("http://localhost:3000/compare", {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/plain,",
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
+    setInterval(function () {
+      try {
+        let differenceList = [];
         fetch("http://localhost:3000/getDifferences", {
           method: "POST",
           headers: {
             Accept: "application/json, text/plain,",
             "Content-Type": "application/json",
-          }
+          },
         })
-      })
-      .then(response => console.log(response))
-      .then((data) => {
-        console.log('data', data);
-        data.forEach((item, index) => {
-          differenceList.push(item);
-        });
-      }).then(() => {
-        console.log('differenceList', differenceList);
-        differenceList.forEach((item, index) => {
-          const para = document.createElement("a");
-          para.innerHTML = item.split("/")[5] + "<br/>";
-          para.href = item;
-          para.id = item;
-          para.setAttribute("target", "_blank");
-          document.body.appendChild(para);
-        });
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("data", data);
+            data.forEach((item, index) => {
+              differenceList.push(item);
+            });
+          })
+          .then(() => {
+            console.log("differenceList", differenceList);
+            const aTag = document.querySelectorAll("a");
+            aTag.forEach((element) => {
+              element.parentNode.removeChild(element);
+            });
 
-        document.querySelectorAll("a").forEach((link) => {
-          link.addEventListener("click", (e) => {
-            let targetUrl = e.target.href;
-            var element = document.getElementById(targetUrl);
-            element.remove();
-            console.log("i am in");
+            differenceList.forEach((item, index) => {
+              const para = document.createElement("a");
+              para.innerHTML = item.element.split("/")[5] + "<br/>";
+              para.href = item.element;
+              para.id = item.element;
+              para.classList = item.publisherName;
+              para.setAttribute("target", "_blank");
+              document.body.appendChild(para);
+            });
 
-            fetch("http://localhost:3000/addDifferences", {
-              method: "POST",
-              headers: {
-                Accept: "application/json, text/plain,",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ differenceUrl: targetUrl }),
-            }).then(() => {
-              fetch("http://localhost:3000/removeDifferences", {
-                method: "POST",
-                headers: {
-                  Accept: "application/json, text/plain,",
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ differenceUrl: targetUrl }),
+            document.querySelectorAll("a").forEach((link) => {
+              link.addEventListener("click", (e) => {
+                let targetUrl = e.target.href;
+                let targetName = e.target.classList;
+                console.log("targetUrl", targetUrl);
+                console.log("targetName", targetName);
+                var element = document.getElementById(targetUrl);
+                element.remove();
+                console.log("i am in");
+
+                fetch("http://localhost:3000/addDifferences", {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json, text/plain,",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    differenceUrl: targetUrl,
+                    publisherName: targetName[0],
+                  }),
+                }).then(() => {
+                  fetch("http://localhost:3000/removeDifferences", {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json, text/plain,",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ differenceUrl: targetUrl }),
+                  });
+                });
               });
             });
           });
-        });
-      });
-  });
+      } catch (err) {
+        res.status(500).send();
+      }
+    }, 30000);
 
-  addStore.addEventListener("click", () => {
-    const storeValue = document.getElementById("fname").value;
-    let gameList = [];
-    fetch("http://localhost:3000/getdata", {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/plain,",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ appStoreUrl: storeValue }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach((item, index) => {
-          gameList.push(item);
-        });
+    btn.addEventListener("click", () => {
+      console.log("clicked");
+      // const storeValue = document.getElementById("fname").value;
+
+      // let differenceList = [];
+
+      // let deneme = "deneme";
+
+      fetch("http://localhost:3000/compare", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain,",
+          "Content-Type": "application/json",
+        },
+      });
+      // .then(() => {
+      //   fetch("http://localhost:3000/getDifferences", {
+      //     method: "POST",
+      //     headers: {
+      //       Accept: "application/json, text/plain,",
+      //       "Content-Type": "application/json",
+      //     },
+      //   });
+      // })
+      // .then((response) => console.log(response))
+      // .then((data) => {
+      //   console.log("data", data);
+      //   data.forEach((item, index) => {
+      //     differenceList.push(item);
+      //   });
+      // })
+      // .then(() => {
+      //   console.log("differenceList", differenceList);
+      //   differenceList.forEach((item, index) => {
+      //     const para = document.createElement("a");
+      //     para.innerHTML = item.split("/")[5] + "<br/>";
+      //     para.href = item;
+      //     para.id = item;
+      //     para.setAttribute("target", "_blank");
+      //     document.body.appendChild(para);
+      //   });
+
+      //   document.querySelectorAll("a").forEach((link) => {
+      //     link.addEventListener("click", (e) => {
+      //       let targetUrl = e.target.href;
+      //       var element = document.getElementById(targetUrl);
+      //       element.remove();
+      //       console.log("i am in");
+
+      //       fetch("http://localhost:3000/addDifferences", {
+      //         method: "POST",
+      //         headers: {
+      //           Accept: "application/json, text/plain,",
+      //           "Content-Type": "application/json",
+      //         },
+      //         body: JSON.stringify({ differenceUrl: targetUrl }),
+      //       }).then(() => {
+      //         fetch("http://localhost:3000/removeDifferences", {
+      //           method: "POST",
+      //           headers: {
+      //             Accept: "application/json, text/plain,",
+      //             "Content-Type": "application/json",
+      //           },
+      //           body: JSON.stringify({ differenceUrl: targetUrl }),
+      //         });
+      //       });
+      //     });
+      //   });
+      // });
+    });
+
+    addStore.addEventListener("click", () => {
+      const storeValue = document.getElementById("fname").value;
+      let gameList = [];
+      fetch("http://localhost:3000/getdata", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain,",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ appStoreUrl: storeValue }),
       })
-      .then(() => {
-        console.log(storeValue);
-        console.log(storeValue.split("/")[5]);
-        console.log(storeValue.split("/")[6].split("?")[0]);
-        const data = {
-          name: storeValue.split("/")[5],
-          publisherId: storeValue.split("/")[6].split("?")[0],
-          appStoreUrl: storeValue,
-          gameList: gameList,
-        };
-
-        fetch("http://localhost:3000/addStore", {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain,",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+        .then((response) => response.json())
+        .then((data) => {
+          data.forEach((item, index) => {
+            gameList.push(item);
+          });
         })
-          .then((res) => res.json())
-          .then((res) => console.log(res));
+        .then(() => {
+          console.log(storeValue);
+          console.log(storeValue.split("/")[5]);
+          console.log(storeValue.split("/")[6].split("?")[0]);
+          const data = {
+            name: storeValue.split("/")[5],
+            publisherId: storeValue.split("/")[6].split("?")[0],
+            appStoreUrl: storeValue,
+            gameList: gameList,
+          };
 
-        //console.log(document.getElementById("fname").value)
-      });
-  });
-</script>
+          fetch("http://localhost:3000/addStore", {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain,",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((res) => res.json())
+            .then((res) => console.log(res));
 
+          //console.log(document.getElementById("fname").value)
+        });
+    });
+  </script>
 </html>
