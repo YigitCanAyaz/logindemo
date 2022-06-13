@@ -16,10 +16,10 @@ const router = express.Router();
 
 require("./routes")(app);
 
-app.listen(3000, function () {
+app.listen(8080, function () {
   console.log(
     "Express started on http://localhost:" +
-      3000 +
+      8080 +
       "; press Ctrl-C to terminate."
   );
 });

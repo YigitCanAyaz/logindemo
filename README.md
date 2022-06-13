@@ -4,14 +4,14 @@ With this web application, you can add your app store to the logged-in user. Aft
 
 ## Home
 
-**URL:** http://localhost:3000/home
+**URL:** http://localhost:8080/home
 
 - This page directs you to register/login screen
 - Note: You can go to Register or Login Screen without home URL
 
 ## Register
 
-**URL:** http://localhost:3000/registration
+**URL:** http://localhost:8080/registration
 
 - With this page you can create your user
 
@@ -30,7 +30,7 @@ With this web application, you can add your app store to the logged-in user. Aft
 
 ## Login
 
-**URL:** http://localhost:3000/login
+**URL:** http://localhost:8080/login
 
 - With this page you can login to your user
 - NOTE: Without logged-in, you cannot insert or read any data to database
@@ -50,7 +50,7 @@ With this web application, you can add your app store to the logged-in user. Aft
 
 ## Root
 
-**URL:** http://localhost:3000
+**URL:** http://localhost:8080
 
 - **NOTE:** This page requires logged-in user
 - With this page you can add store (Add Store Button)
