@@ -126,9 +126,16 @@ async function handler(req, res) {
 
 async function addStore(req, res) {
   if (loggedUsername !== undefined) {
-    Publisher.countDocuments(
-      { username: loggedUsername },
-      function (err, count) {
+    Publisher.findOne({ username: loggedUsername, appStoreUrl: req.body.appStoreUrl }, function (err, foundPublisher) {
+
+      console.log(foundPublisher);
+      console.log(loggedUsername);
+      console.log('req.body.appStoreUrl', req.body.appStoreUrl)
+
+      if (!foundPublisher) {
+
+        console.log('count is 0');
+
         const { name, publisherId, appStoreUrl, gameList } = req.body;
 
         const newPublisher = new Publisher({
@@ -146,6 +153,16 @@ async function addStore(req, res) {
           error: null,
         });
       }
+
+      else {
+        console.log('count is not 0');
+
+        res.json({
+          body: { toast: "There is already a publisher." },
+          error: null,
+        });
+      }
+    }
     );
   } else {
     return res
@@ -190,7 +207,9 @@ async function compare(req, res) {
                     if (err) return handleError(err);
 
                     difference.forEach((element) => {
-                      if (foundUser.difference.indexOf(element) === -1) {
+                      let index = foundUser.difference.findIndex(item => item.element === element);
+                      console.log('index', index);
+                      if (index === -1) {
                         foundUser.difference.push({ element, publisherName });
                       }
                     });

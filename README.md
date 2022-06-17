@@ -4,7 +4,7 @@ With this web application, you can add your stores to the logged-in user. After 
 
 ## Path
 
-First go to the http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/ and register an account if you don't have it yet. 
+First go to the http://localhost:8080/ and register an account if you don't have it yet. 
 
 Then login to that user and you will be redirected to the root page. Enter your full store url link (for example https://apps.apple.com/us/developer/toprak-yildirim/id1598138404?see-all=i-phonei-pad-apps) and click to the add store button. This will add your store & games to the database. 
 
