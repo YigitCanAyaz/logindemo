@@ -154,7 +154,7 @@
     try {
       let differenceList = [];
       fetch(
-        "http://localhost:8080/getDifferences",
+        "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/getDifferences",
         {
           method: "POST",
           headers: {
@@ -198,7 +198,7 @@
               console.log("i am in");
 
               fetch(
-                "http://localhost:8080/addDifferences",
+                "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addDifferences",
                 {
                   method: "POST",
                   headers: {
@@ -212,7 +212,7 @@
                 }
               ).then(() => {
                 fetch(
-                  "http://localhost:8080/removeDifferences",
+                  "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/removeDifferences",
                   {
                     method: "POST",
                     headers: {
@@ -239,7 +239,7 @@
 
     // let deneme = "deneme";
 
-    fetch("http://localhost:8080/compare", {
+    fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/compare", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain,",
@@ -305,7 +305,7 @@
   addStore.addEventListener("click", () => {
     const storeValue = document.getElementById("fname").value;
     let gameList = [];
-    fetch("http://localhost:8080/getdata", {
+    fetch("http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/getdata", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain,",
@@ -331,7 +331,7 @@
         };
 
         fetch(
-          "http://localhost:8080/addStore",
+          "http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/addStore",
           {
             method: "POST",
             headers: {
