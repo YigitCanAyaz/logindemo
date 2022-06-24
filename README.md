@@ -4,7 +4,7 @@ With this web application, you can add your stores to the logged-in user. After 
 
 ## Path
 
-First go to the http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/ and register an account if you don't have it yet. 
+First go to the http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com/ and register an account if you don't have it yet. 
 
 Then login to that user and you will be redirected to the root page. Enter your full store url link (for example https://apps.apple.com/us/developer/toprak-yildirim/id1598138404?see-all=i-phonei-pad-apps) and click to the add store button. This will add your store & games to the database. 
 
@@ -16,14 +16,14 @@ Have fun! @yigitcanayaz
 
 ## Home
 
-**URL:** http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/home
+**URL:** http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com/home
 
 - This page directs you to register/login screen
 - Note: You can go to Register or Login Screen without home URL
 
 ## Register
 
-**URL:** http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/registration
+**URL:** http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com/registration
 
 - With this page you can create your user
 
@@ -42,7 +42,7 @@ Have fun! @yigitcanayaz
 
 ## Login
 
-**URL:** http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com/login
+**URL:** http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com/login
 
 - With this page you can login to your user
 - NOTE: Without logged-in, you cannot insert or read any data to database
@@ -62,7 +62,7 @@ Have fun! @yigitcanayaz
 
 ## Root
 
-**URL:** http://ec2-13-58-246-89.us-east-2.compute.amazonaws.com
+**URL:** http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com
 
 - **NOTE:** This page requires logged-in user
 - With this page you can add store (Add Store Button)
