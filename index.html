@@ -150,6 +150,18 @@
 
   let addStore = document.getElementById("addStore");
 
+  const totalDiv = document.createElement("div");
+
+  totalDiv.style.cssText += 'display: flex';
+
+  const publishers = document.createElement("div");
+
+  publishers.style.cssText += 'flex: 50%; height: 300px; padding-right: 10px';
+
+  const differences = document.createElement("div");
+
+  differences.style.cssText += 'flex: 50%; padding: 10px; height: 300px';
+
   setInterval(function () {
     try {
       let differenceList = [];
@@ -179,12 +191,12 @@
 
           differenceList.forEach((item, index) => {
             const para = document.createElement("a");
-            para.innerHTML = item.element.split("/")[5] + "<br/>";
+            para.innerHTML = item.element.split("/")[5] + "<br/>" + "<br/>";
             para.href = item.element;
             para.id = item.element;
             para.classList = item.publisherName;
             para.setAttribute("target", "_blank");
-            document.body.appendChild(para);
+            differences.appendChild(para);
           });
 
           document.querySelectorAll("a").forEach((link) => {
@@ -230,6 +242,58 @@
       res.status(500).send();
     }
   }, 30000);
+
+
+  setInterval(function () {
+    try {
+      let publisherList = [];
+      fetch(
+        "http://ec2-3-17-68-11.us-east-2.compute.amazonaws.com/getPublishers",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json, text/plain,",
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => response.json())
+        .then((data) => {
+          console.log("data", data);
+          data.forEach((item, index) => {
+            publisherList.push(item);
+          });
+        })
+        .then(() => {
+          console.log("publisherList", publisherList);
+          const pTag = document.querySelectorAll("p");
+          pTag.forEach((element) => {
+            element.parentNode.removeChild(element);
+          });
+
+          publisherList.forEach((item, index) => {
+            // var mybr = document.createElement('br');
+            const publisher = document.createElement("p");
+            publisher.innerHTML = item;
+            publisher.id = item;
+            publisher.style.cssText += 'text-align: right';
+            publishers.appendChild(publisher);
+          })
+        });
+    } catch (err) {
+      res.status(500).send();
+    }
+  }, 30000);
+
+  setInterval(function () {
+    try {
+      totalDiv.appendChild(differences);
+      totalDiv.appendChild(publishers);
+      document.body.appendChild(totalDiv);
+    } catch (err) {
+      res.status(500).send();
+    }
+  }, 35000);
 
   btn.addEventListener("click", () => {
     console.log("clicked");

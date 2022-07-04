@@ -27,6 +27,8 @@ module.exports = function (app) {
 
   app.post("/removeDifferences", removeDifferences);
 
+  app.post("/getPublishers", getPublishers);
+
   app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "login.html"));
   });
@@ -294,6 +296,24 @@ async function getDifferences(req, res) {
         res.status(201).send(JSON.stringify(foundUser.difference));
       }
     });
+  } catch (err) {
+    res.status(500).send();
+  }
+}
+
+async function getPublishers(req, res) {
+  try {
+    let publishers = [];
+    Publisher.find(
+      { username: loggedUsername},
+      function (err, doc) {
+        doc.forEach((element) => {
+          publishers.push(element.name);
+        });
+        console.log('publishers', publishers);
+        res.status(201).send(JSON.stringify(publishers));
+      }
+    );
   } catch (err) {
     res.status(500).send();
   }
